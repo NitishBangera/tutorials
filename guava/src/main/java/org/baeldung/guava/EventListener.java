@@ -1,5 +1,6 @@
 package org.baeldung.guava;
 
+import com.google.common.eventbus.DeadEvent;
 import com.google.common.eventbus.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +22,17 @@ public class EventListener {
         eventsHandled++;
     }
 
-    public int getEventsHandled() {
+    @Subscribe
+    public void handleDeadEvent(DeadEvent deadEvent) {
+        LOG.info("unhandled event [" + deadEvent.getEvent() + "]");
+        eventsHandled++;
+    }
+
+    int getEventsHandled() {
         return eventsHandled;
     }
 
-    public void resetEventsHandled() {
+    void resetEventsHandled() {
         eventsHandled = 0;
     }
 }

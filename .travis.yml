@@ -1,11 +1,16 @@
 language: java
 
-install: travis_wait 40 mvn -q clean install -Dgib.enabled=true
+before_install: 
+  - echo "MAVEN_OPTS='-Xmx2048M -Xss128M -XX:+CMSClassUnloadingEnabled -XX:+UseG1GC -XX:-UseGCOverheadLimit'" > ~/.mavenrc
+
+install: skip
+script: travis_wait 60 mvn -q install -Pdefault-first,default-second -Dgib.enabled=true
+
+sudo: required
 
 jdk:
   - oraclejdk8
 
-sudo: false
 addons:
   apt:
     packages:
@@ -15,3 +20,5 @@ cache:
   directories:
   - .autoconf
   - $HOME/.m2
+  
+
